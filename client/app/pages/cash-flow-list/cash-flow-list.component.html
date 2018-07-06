@@ -1,0 +1,83 @@
+<!-- TITLE -->
+<mat-card class="mb-40">
+    <h1>CashFlow List</h1>
+</mat-card>
+
+<!-- SEARCH FORM -->
+<mat-card>
+    
+    <div class="card-title">
+        <mat-icon>search</mat-icon>
+        Search
+    </div>
+        
+    <form name="form-search" class="container-fluid">
+
+        <div class="row">
+			
+                <mat-checkbox [(ngModel)]="search.addition" name="addition" id="addition">Addition</mat-checkbox>
+			
+                <div class="col-sm-6">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" placeholder="Amount" [(ngModel)]="search.amount" name="amount" id="amount">
+                    </mat-form-field>
+                </div>
+			
+                <div class="col-sm-6">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" placeholder="Description" [(ngModel)]="search.description" name="description" id="description">
+                    </mat-form-field>
+                </div>
+			
+                <div class="col-sm-6">
+                    <mat-form-field class="full-width">
+                        <input matInput type="date" placeholder="Transaction_date" [(ngModel)]="search.transaction_date" name="transaction_date" id="transaction_date">
+                    </mat-form-field>
+                </div>
+        </div>
+
+    </form>
+</mat-card>
+
+<!-- TABLE -->
+<table class="table table-hover mt-40">
+    <thead>
+        <tr>
+            <th>_id</th>
+            <th>addition</th>
+            <th>amount</th>
+            <th>description</th>
+            <th>transaction_date</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of list | search: { 'addition': search.addition, 'amount': search.amount, 'description': search.description, 'transaction_date': search.transaction_date }">
+            <td><a [routerLink]="['/cashflows', item._id]">{{item._id}}</a></td>
+            
+            <!-- ATTRIBUTES -->
+            
+            <td>{{item.addition }}</td>
+            <td>{{item.amount }}</td>
+            <td>{{item.description }}</td>
+            <td>{{item.transaction_date | date }}</td>
+            
+            <!-- DELETE BUTTON -->
+            <td>
+                <button mat-icon-button (click)="openModal(item._id)" class="mt--10">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <div class="no-result" *ngIf="(list | search: {  'addition': search.addition ,  'amount': search.amount ,  'description': search.description ,  'transaction_date': search.transaction_date  }).length == 0">
+        No items found
+    </div>
+</table>
+
+<!-- BUTTON -->
+<button class="btn btn-primary pull-right mb-20" routerLink="/cashflows/new" mat-fab color="primary">
+    <mat-icon>add</mat-icon>
+</button>
+
+<div class="clearfix"></div>

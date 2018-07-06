@@ -1,0 +1,75 @@
+<!-- TITLE -->
+<mat-card class="mb-40">
+    <h1>Account List</h1>
+</mat-card>
+
+<!-- SEARCH FORM -->
+<mat-card>
+    
+    <div class="card-title">
+        <mat-icon>search</mat-icon>
+        Search
+    </div>
+        
+    <form name="form-search" class="container-fluid">
+
+        <div class="row">
+			
+                <mat-checkbox [(ngModel)]="search.Active" name="Active" id="Active">Active</mat-checkbox>
+			
+                <div class="col-sm-6">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" placeholder="Description" [(ngModel)]="search.Description" name="Description" id="Description">
+                    </mat-form-field>
+                </div>
+			
+                <div class="col-sm-6">
+                    <mat-form-field class="full-width">
+                        <input matInput type="text" placeholder="Name" [(ngModel)]="search.Name" name="Name" id="Name">
+                    </mat-form-field>
+                </div>
+        </div>
+
+    </form>
+</mat-card>
+
+<!-- TABLE -->
+<table class="table table-hover mt-40">
+    <thead>
+        <tr>
+            <th>_id</th>
+            <th>Active</th>
+            <th>Description</th>
+            <th>Name</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of list | search: { 'Active': search.Active, 'Description': search.Description, 'Name': search.Name }">
+            <td><a [routerLink]="['/accounts', item._id]">{{item._id}}</a></td>
+            
+            <!-- ATTRIBUTES -->
+            
+            <td>{{item.Active }}</td>
+            <td>{{item.Description }}</td>
+            <td>{{item.Name }}</td>
+            
+            <!-- DELETE BUTTON -->
+            <td>
+                <button mat-icon-button (click)="openModal(item._id)" class="mt--10">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <div class="no-result" *ngIf="(list | search: {  'Active': search.Active ,  'Description': search.Description ,  'Name': search.Name  }).length == 0">
+        No items found
+    </div>
+</table>
+
+<!-- BUTTON -->
+<button class="btn btn-primary pull-right mb-20" routerLink="/accounts/new" mat-fab color="primary">
+    <mat-icon>add</mat-icon>
+</button>
+
+<div class="clearfix"></div>

@@ -1,0 +1,93 @@
+<!-- TITLE -->
+<mat-card class="mb-40">
+    <h1>CashFlow Edit</h1>
+</mat-card>
+
+<mat-card>
+    <div class="card-title">
+        <mat-icon>edit</mat-icon>
+        Edit
+    </div>
+
+    <form #skaffolderForm="ngForm" class="container-fluid">
+        
+        <mat-checkbox [(ngModel)]="item.addition" name="addition" id="addition">Addition</mat-checkbox>
+        
+        
+        
+        <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="Amount" [(ngModel)]="item.amount"  name="amount" id="amount" >
+        </mat-form-field>
+        
+        
+        <mat-form-field class="full-width">
+            <input matInput type="text" placeholder="Description" [(ngModel)]="item.description"  name="description" id="description" >
+        </mat-form-field>
+        
+        
+        <mat-form-field class="full-width">
+            <input matInput type="date" placeholder="Transaction_date" [ngModel]="item.transaction_date | date: 'y-MM-dd'"  (ngModelChange)="item.transaction_date = $event" name="transaction_date" id="transaction_date" >
+        </mat-form-field>
+        
+        <!-- RELATIONS -->
+        <h2 class="mb-20">Relations</h2>
+        
+        
+            <div>
+            <label class="mr-10">accountid</label>
+            <button mat-mini-fab [matMenuTriggerFor]="account" color="primary">
+                <mat-icon>add</mat-icon>            
+                <mat-menu #account="matMenu">
+                    <button mat-menu-item *ngFor="let item of listAccountid" [disabled]="containAccount(item._id) ? true : false" href="#" (click)="$event.preventDefault(); containAccount(item._id) || addAccount(item._id)">{{item._id}}</button>
+                </mat-menu>
+            </button>
+        </div>
+        <mat-list>
+            <mat-list-item *ngFor="let obj of item.accountid; let i = index">    
+                <button mat-icon-button (click)="removeAccount(i)" class="mr-10">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                {{obj}}
+            </mat-list-item>
+            
+            <mat-list-item *ngIf="!item.accountid || item.accountid.length == 0">
+                No items found 
+            </mat-list-item>
+        </mat-list>
+        
+        
+            <div>
+            <label class="mr-10">userid</label>
+            <button mat-mini-fab [matMenuTriggerFor]="user" color="primary">
+                <mat-icon>add</mat-icon>            
+                <mat-menu #user="matMenu">
+                    <button mat-menu-item *ngFor="let item of listUserid" [disabled]="containUser(item._id) ? true : false" href="#" (click)="$event.preventDefault(); containUser(item._id) || addUser(item._id)">{{item._id}}</button>
+                </mat-menu>
+            </button>
+        </div>
+        <mat-list>
+            <mat-list-item *ngFor="let obj of item.userid; let i = index">    
+                <button mat-icon-button (click)="removeUser(i)" class="mr-10">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                {{obj}}
+            </mat-list-item>
+            
+            <mat-list-item *ngIf="!item.userid || item.userid.length == 0">
+                No items found 
+            </mat-list-item>
+        </mat-list>
+        
+        
+        
+        
+
+
+        <!-- BUTTON BAR -->
+        <div class="mt-40">
+            <button mat-raised-button color="primary" class="pull-right mr-5" (click)="save(skaffolderForm.valid, item)">Save</button>
+            <button mat-raised-button class="pull-right " (click)="goBack()">Back To List</button>
+        </div>
+    </form>
+
+</mat-card>
